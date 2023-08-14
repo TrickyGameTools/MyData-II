@@ -11,4 +11,5 @@ Below a screenshot of the license terms:
 # Mascot girl
 The girl who serves as a mascot was downloaded from a public domain clip art site.
 The artist is unknown to me. Should this picture have been uploaded there illegally and copyright terms still be in the way, let me know and give me reliable sources confirming your claim, so I can replace the mascot.
+
 ![Mascot girl](https://github.com/TrickyGameTools/MyData-II/blob/master/Icon.png?raw=true)
