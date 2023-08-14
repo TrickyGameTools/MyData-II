@@ -23,6 +23,7 @@
 // 
 // Version: 23.08.14
 // EndLic
+
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -45,6 +46,7 @@ namespace MyData_II {
     /// </summary>
     public partial class MainWindow : Window {
         public MainWindow() {
+            Debug.WriteLine($"Running {Args.Executable}");
             InitializeComponent();
         }
 
