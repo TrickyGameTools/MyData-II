@@ -55,6 +55,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -73,21 +74,54 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="..\TrickyUnits\GINIE.cs">
+      <Link>Units\GINIE.cs</Link>
+    </Compile>
+    <Compile Include="Record.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="..\TrickyUnits\Dirry.cs">
+      <Link>Units\Dirry.cs</Link>
+    </Compile>
+    <Compile Include="..\TrickyUnits\FileList.cs">
+      <Link>Units\FileList.cs</Link>
+    </Compile>
+    <Compile Include="..\TrickyUnits\Fmt.cs">
+      <Link>Units\Fmt.cs</Link>
+    </Compile>
+    <Compile Include="..\TrickyUnits\FormConfirm.cs">
+      <Link>Units\FormConfirm.cs</Link>
+    </Compile>
+    <Compile Include="..\TrickyUnits\FormSelectFiles.cs">
+      <Link>Units\FormSelectFiles.cs</Link>
+    </Compile>
+    <Compile Include="..\TrickyUnits\mkl.cs">
+      <Link>Units\mkl.cs</Link>
+    </Compile>
+    <Compile Include="..\TrickyUnits\qstr.cs">
+      <Link>Units\qstr.cs</Link>
+    </Compile>
+    <Compile Include="..\TrickyUnits\qstream.cs">
+      <Link>Units\qstream.cs</Link>
+    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Args.cs" />
+    <Compile Include="Error.cs" />
+    <Compile Include="GUIArray.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MyData.cs" />
+    <Compile Include="MyDataField.cs" />
+    <Compile Include="MyDataPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>

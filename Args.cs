@@ -58,7 +58,7 @@ namespace MyData_II {
 			intswitches = new SortedDictionary<string, int>();
 			var _dbf = new List<string>();
 			int i = 0;
-			while(++i< pure.Length) {
+			while (++i < pure.Length) {
 				if (pure[i][0] == '-') {
 					var sw = pure[i].Substring(1).ToUpper();
 					switch (sw) {
@@ -70,8 +70,7 @@ namespace MyData_II {
 							break;
 
 						// Integer switches
-						case "INTEGERTEST": 
-							{
+						case "INTEGERTEST": {
 								if (++i >= pure.Length) Error.Crash($"Switch -{sw} expected an integer value, but got nothing");
 								try {
 									intswitches[sw] = int.Parse(pure[i]);
@@ -82,8 +81,7 @@ namespace MyData_II {
 							break;
 
 						// String switches
-						case "STRINGTEST": 
-							{
+						case "STRINGTEST": {
 								if (++i >= pure.Length) Error.Crash($"Switch -{sw} expected a string value, but got nothing");
 								stringswitches[sw] = pure[i];
 							}
@@ -97,28 +95,31 @@ namespace MyData_II {
 						default:
 							Error.Crash($"Unknown switch {sw}");
 							break;
-				}
+					}
 					if (swStr("StringTest") != "") Confirm.Annoy($"String Test: {swStr("StringTest")}");
 					if (swInt("IntegerTest") != 0) Confirm.Annoy($"Integer Test: {swInt("IntegerTest")}");
 					if (swBool("BoolTest")) Confirm.Annoy("A boolean test was requested");
 				} else {
 					_dbf.Add(pure[i]);
 				}
-		}
+			}
 			if (_dbf.Count <= 0) {
 				Confirm.Annoy("No database has been chosen. Please choose a database file");
 				var f = FFS.RequestFile();
-				if (f=="") Environment.Exit(0);
+				if (f == "") Environment.Exit(0);
 				_dbf.Add(f);
 			}
 			_dbf.Sort();
-			DataBaseFiles=_dbf.ToArray();
+			DataBaseFiles = _dbf.ToArray();
 			var AnySuccess = false;
-			foreach(var f in DataBaseFiles) {
+			foreach (var f in DataBaseFiles) {
 				uint c = 0;
 				var t = qstr.StripDir(f);
 				while (DataBases.ContainsKey(t)) t = $"{qstr.StripDir(t)} ({++c})";
-				
+				DataBases[t] = MyData.Load(f);
+				AnySuccess = AnySuccess || DataBases[t] != null;
 			}
+			if (!AnySuccess) { Error.Crash("None of the requested databases have been loaded succesfully"); Environment.Exit(3); }
+		}
 	}
 }
