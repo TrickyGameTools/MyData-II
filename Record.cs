@@ -21,7 +21,7 @@
 // Please note that some references to data like pictures or audio, do not automatically
 // fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 23.08.16
+// Version: 23.08.17
 // EndLic
 using System;
 using System.Collections.Generic;
@@ -42,7 +42,8 @@ namespace MyData_II {
 					Error.Err($"There is no field named '{key}' in this database. Yet data from that field is requested!");
 					return "ERROR";
 				}
-				if (this.Data.ContainsKey(key)) {
+				if (!Data.ContainsKey(key)) {
+					//foreach (var f in Data) Debug.WriteLine($"Data.{f.Key} = '{f.Value}'"); // DEBUG ONLY!!
 					Console.Beep(); Debug.WriteLine($"Field {key} not found!");
 					Data[key] = Parent.Fields[key].DefaultValue("DEFAULT");
 				}
@@ -54,6 +55,20 @@ namespace MyData_II {
 				Data[key] = value;
 				Modified = true;
 			}
+		}
+
+		internal int IntVal(string key) {
+			try {
+				return int.Parse(this[key]);
+			} catch { 
+				return 0; 
+			}
+			
+		}
+
+		internal bool BoolVal(string key) {
+			var v = this[key].ToUpper();
+            return v == "TRUE" || v == "YES";
 		}
 
 		internal MyDataRecord(MyData Parent,string template="Default") {
