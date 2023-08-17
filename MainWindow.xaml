@@ -21,7 +21,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 Please note that some references to data like pictures or audio, do not automatically
 fall under this licenses. Mostly this is noted in the respective files.
 
-Version: 23.08.16
+Version: 23.08.17
 End License block -->
 	
 <Window x:Class="MyData_II.MainWindow"
@@ -42,7 +42,7 @@ End License block -->
 			<ImageBrush ImageSource="/Background_Fractal.png" />
 		</Grid.Background>
 		<Grid x:Name="Function_Area" Height="100" VerticalAlignment="Top">
-			<ListBox x:Name="LB_Databases" Width="150" HorizontalAlignment="Left" Foreground="#00b4ff" Background="#BD000B0F"/>
+			<ListBox x:Name="LB_Databases" Width="150" HorizontalAlignment="Left" Foreground="#00b4ff" Background="#BD000B0F" SelectionChanged="LB_Databases_SelectionChanged"/>
 		</Grid>
 		<Grid x:Name="Record_Overview_Panel" Margin="0,100,0,0" Width="150" HorizontalAlignment="Left">
 			<Grid x:Name="RecordsGrid" Margin="0,0,0,150">
@@ -57,8 +57,8 @@ End License block -->
 			</Grid>
 		</Grid>
 		<Grid Margin="150,100,0,0" x:Name="PageMainGrid">
-			<ListBox Width="150" HorizontalAlignment="Right" x:Name="PageList" Foreground="#b4ff00" Background="#7f0f0b00"/>
-			<Grid Margin="0,0,150,0" x:Name="PageGrid">
+			<ListBox Width="150" HorizontalAlignment="Right" x:Name="PageList" Foreground="#b4ff00" Background="#7f0f0b00" SelectionChanged="PageList_SelectionChanged"/>
+			<Grid Margin="0,0,150,0" x:Name="PageGrid" Background="#7F000000">
 				<!-- Start: Quick Generated Part -->
 				<Grid x:Name="DataGrid00" Margin="0,0,0,0" Height="30" VerticalAlignment="Top">
 					<Label x:Name="Strike00" Background="#ffffff" Height="2" />
@@ -66,7 +66,9 @@ End License block -->
 					<Label x:Name="TypeLabel00" Foreground="#ff1010" />
 					<Label x:Name="InfoLabel00" Foreground="#00b4ff" />
 					<Label x:Name="NameLabel00" Foreground="#00ff00" Margin="150,0,0,0" />
-					<TextBox x:Name="DataText00" Margin="300,0,0,0" />
+					<TextBox x:Name="DataText00" Margin="300,0,0,0" Foreground="#b400ff" Background="#0b000f" />
+					<TextBox x:Name="DataInt00" Margin="300,0,0,0" Foreground="#00b4ff" Background="#000b0f" />
+					<CheckBox x:Name="DataBool00" Margin="300,0,0,0" Foreground="#ffff00" />
 				</Grid>
 				<Grid x:Name="DataGrid01" Margin="0,30,0,0" Height="30" VerticalAlignment="Top">
 					<Label x:Name="Strike01" Background="#ffffff" Height="2" />
@@ -74,7 +76,9 @@ End License block -->
 					<Label x:Name="TypeLabel01" Foreground="#ff1010" />
 					<Label x:Name="InfoLabel01" Foreground="#00b4ff" />
 					<Label x:Name="NameLabel01" Foreground="#00ff00" Margin="150,0,0,0" />
-					<TextBox x:Name="DataText01" Margin="300,0,0,0" />
+					<TextBox x:Name="DataText01" Margin="300,0,0,0" Foreground="#b400ff" Background="#0b000f" />
+					<TextBox x:Name="DataInt01" Margin="300,0,0,0" Foreground="#00b4ff" Background="#000b0f" />
+					<CheckBox x:Name="DataBool01" Margin="300,0,0,0" Foreground="#ffff00" />
 				</Grid>
 				<Grid x:Name="DataGrid02" Margin="0,60,0,0" Height="30" VerticalAlignment="Top">
 					<Label x:Name="Strike02" Background="#ffffff" Height="2" />
@@ -82,7 +86,9 @@ End License block -->
 					<Label x:Name="TypeLabel02" Foreground="#ff1010" />
 					<Label x:Name="InfoLabel02" Foreground="#00b4ff" />
 					<Label x:Name="NameLabel02" Foreground="#00ff00" Margin="150,0,0,0" />
-					<TextBox x:Name="DataText02" Margin="300,0,0,0" />
+					<TextBox x:Name="DataText02" Margin="300,0,0,0" Foreground="#b400ff" Background="#0b000f" />
+					<TextBox x:Name="DataInt02" Margin="300,0,0,0" Foreground="#00b4ff" Background="#000b0f" />
+					<CheckBox x:Name="DataBool02" Margin="300,0,0,0" Foreground="#ffff00" />
 				</Grid>
 				<Grid x:Name="DataGrid03" Margin="0,90,0,0" Height="30" VerticalAlignment="Top">
 					<Label x:Name="Strike03" Background="#ffffff" Height="2" />
@@ -90,7 +96,9 @@ End License block -->
 					<Label x:Name="TypeLabel03" Foreground="#ff1010" />
 					<Label x:Name="InfoLabel03" Foreground="#00b4ff" />
 					<Label x:Name="NameLabel03" Foreground="#00ff00" Margin="150,0,0,0" />
-					<TextBox x:Name="DataText03" Margin="300,0,0,0" />
+					<TextBox x:Name="DataText03" Margin="300,0,0,0" Foreground="#b400ff" Background="#0b000f" />
+					<TextBox x:Name="DataInt03" Margin="300,0,0,0" Foreground="#00b4ff" Background="#000b0f" />
+					<CheckBox x:Name="DataBool03" Margin="300,0,0,0" Foreground="#ffff00" />
 				</Grid>
 				<Grid x:Name="DataGrid04" Margin="0,120,0,0" Height="30" VerticalAlignment="Top">
 					<Label x:Name="Strike04" Background="#ffffff" Height="2" />
@@ -98,7 +106,9 @@ End License block -->
 					<Label x:Name="TypeLabel04" Foreground="#ff1010" />
 					<Label x:Name="InfoLabel04" Foreground="#00b4ff" />
 					<Label x:Name="NameLabel04" Foreground="#00ff00" Margin="150,0,0,0" />
-					<TextBox x:Name="DataText04" Margin="300,0,0,0" />
+					<TextBox x:Name="DataText04" Margin="300,0,0,0" Foreground="#b400ff" Background="#0b000f" />
+					<TextBox x:Name="DataInt04" Margin="300,0,0,0" Foreground="#00b4ff" Background="#000b0f" />
+					<CheckBox x:Name="DataBool04" Margin="300,0,0,0" Foreground="#ffff00" />
 				</Grid>
 				<Grid x:Name="DataGrid05" Margin="0,150,0,0" Height="30" VerticalAlignment="Top">
 					<Label x:Name="Strike05" Background="#ffffff" Height="2" />
@@ -106,7 +116,9 @@ End License block -->
 					<Label x:Name="TypeLabel05" Foreground="#ff1010" />
 					<Label x:Name="InfoLabel05" Foreground="#00b4ff" />
 					<Label x:Name="NameLabel05" Foreground="#00ff00" Margin="150,0,0,0" />
-					<TextBox x:Name="DataText05" Margin="300,0,0,0" />
+					<TextBox x:Name="DataText05" Margin="300,0,0,0" Foreground="#b400ff" Background="#0b000f" />
+					<TextBox x:Name="DataInt05" Margin="300,0,0,0" Foreground="#00b4ff" Background="#000b0f" />
+					<CheckBox x:Name="DataBool05" Margin="300,0,0,0" Foreground="#ffff00" />
 				</Grid>
 				<Grid x:Name="DataGrid06" Margin="0,180,0,0" Height="30" VerticalAlignment="Top">
 					<Label x:Name="Strike06" Background="#ffffff" Height="2" />
@@ -114,7 +126,9 @@ End License block -->
 					<Label x:Name="TypeLabel06" Foreground="#ff1010" />
 					<Label x:Name="InfoLabel06" Foreground="#00b4ff" />
 					<Label x:Name="NameLabel06" Foreground="#00ff00" Margin="150,0,0,0" />
-					<TextBox x:Name="DataText06" Margin="300,0,0,0" />
+					<TextBox x:Name="DataText06" Margin="300,0,0,0" Foreground="#b400ff" Background="#0b000f" />
+					<TextBox x:Name="DataInt06" Margin="300,0,0,0" Foreground="#00b4ff" Background="#000b0f" />
+					<CheckBox x:Name="DataBool06" Margin="300,0,0,0" Foreground="#ffff00" />
 				</Grid>
 				<Grid x:Name="DataGrid07" Margin="0,210,0,0" Height="30" VerticalAlignment="Top">
 					<Label x:Name="Strike07" Background="#ffffff" Height="2" />
@@ -122,7 +136,9 @@ End License block -->
 					<Label x:Name="TypeLabel07" Foreground="#ff1010" />
 					<Label x:Name="InfoLabel07" Foreground="#00b4ff" />
 					<Label x:Name="NameLabel07" Foreground="#00ff00" Margin="150,0,0,0" />
-					<TextBox x:Name="DataText07" Margin="300,0,0,0" />
+					<TextBox x:Name="DataText07" Margin="300,0,0,0" Foreground="#b400ff" Background="#0b000f" />
+					<TextBox x:Name="DataInt07" Margin="300,0,0,0" Foreground="#00b4ff" Background="#000b0f" />
+					<CheckBox x:Name="DataBool07" Margin="300,0,0,0" Foreground="#ffff00" />
 				</Grid>
 				<Grid x:Name="DataGrid08" Margin="0,240,0,0" Height="30" VerticalAlignment="Top">
 					<Label x:Name="Strike08" Background="#ffffff" Height="2" />
@@ -130,7 +146,9 @@ End License block -->
 					<Label x:Name="TypeLabel08" Foreground="#ff1010" />
 					<Label x:Name="InfoLabel08" Foreground="#00b4ff" />
 					<Label x:Name="NameLabel08" Foreground="#00ff00" Margin="150,0,0,0" />
-					<TextBox x:Name="DataText08" Margin="300,0,0,0" />
+					<TextBox x:Name="DataText08" Margin="300,0,0,0" Foreground="#b400ff" Background="#0b000f" />
+					<TextBox x:Name="DataInt08" Margin="300,0,0,0" Foreground="#00b4ff" Background="#000b0f" />
+					<CheckBox x:Name="DataBool08" Margin="300,0,0,0" Foreground="#ffff00" />
 				</Grid>
 				<Grid x:Name="DataGrid09" Margin="0,270,0,0" Height="30" VerticalAlignment="Top">
 					<Label x:Name="Strike09" Background="#ffffff" Height="2" />
@@ -138,7 +156,9 @@ End License block -->
 					<Label x:Name="TypeLabel09" Foreground="#ff1010" />
 					<Label x:Name="InfoLabel09" Foreground="#00b4ff" />
 					<Label x:Name="NameLabel09" Foreground="#00ff00" Margin="150,0,0,0" />
-					<TextBox x:Name="DataText09" Margin="300,0,0,0" />
+					<TextBox x:Name="DataText09" Margin="300,0,0,0" Foreground="#b400ff" Background="#0b000f" />
+					<TextBox x:Name="DataInt09" Margin="300,0,0,0" Foreground="#00b4ff" Background="#000b0f" />
+					<CheckBox x:Name="DataBool09" Margin="300,0,0,0" Foreground="#ffff00" />
 				</Grid>
 				<Grid x:Name="DataGrid10" Margin="0,300,0,0" Height="30" VerticalAlignment="Top">
 					<Label x:Name="Strike10" Background="#ffffff" Height="2" />
@@ -146,7 +166,9 @@ End License block -->
 					<Label x:Name="TypeLabel10" Foreground="#ff1010" />
 					<Label x:Name="InfoLabel10" Foreground="#00b4ff" />
 					<Label x:Name="NameLabel10" Foreground="#00ff00" Margin="150,0,0,0" />
-					<TextBox x:Name="DataText10" Margin="300,0,0,0" />
+					<TextBox x:Name="DataText10" Margin="300,0,0,0" Foreground="#b400ff" Background="#0b000f" />
+					<TextBox x:Name="DataInt10" Margin="300,0,0,0" Foreground="#00b4ff" Background="#000b0f" />
+					<CheckBox x:Name="DataBool10" Margin="300,0,0,0" Foreground="#ffff00" />
 				</Grid>
 				<Grid x:Name="DataGrid11" Margin="0,330,0,0" Height="30" VerticalAlignment="Top">
 					<Label x:Name="Strike11" Background="#ffffff" Height="2" />
@@ -154,7 +176,9 @@ End License block -->
 					<Label x:Name="TypeLabel11" Foreground="#ff1010" />
 					<Label x:Name="InfoLabel11" Foreground="#00b4ff" />
 					<Label x:Name="NameLabel11" Foreground="#00ff00" Margin="150,0,0,0" />
-					<TextBox x:Name="DataText11" Margin="300,0,0,0" />
+					<TextBox x:Name="DataText11" Margin="300,0,0,0" Foreground="#b400ff" Background="#0b000f" />
+					<TextBox x:Name="DataInt11" Margin="300,0,0,0" Foreground="#00b4ff" Background="#000b0f" />
+					<CheckBox x:Name="DataBool11" Margin="300,0,0,0" Foreground="#ffff00" />
 				</Grid>
 				<Grid x:Name="DataGrid12" Margin="0,360,0,0" Height="30" VerticalAlignment="Top">
 					<Label x:Name="Strike12" Background="#ffffff" Height="2" />
@@ -162,7 +186,9 @@ End License block -->
 					<Label x:Name="TypeLabel12" Foreground="#ff1010" />
 					<Label x:Name="InfoLabel12" Foreground="#00b4ff" />
 					<Label x:Name="NameLabel12" Foreground="#00ff00" Margin="150,0,0,0" />
-					<TextBox x:Name="DataText12" Margin="300,0,0,0" />
+					<TextBox x:Name="DataText12" Margin="300,0,0,0" Foreground="#b400ff" Background="#0b000f" />
+					<TextBox x:Name="DataInt12" Margin="300,0,0,0" Foreground="#00b4ff" Background="#000b0f" />
+					<CheckBox x:Name="DataBool12" Margin="300,0,0,0" Foreground="#ffff00" />
 				</Grid>
 				<Grid x:Name="DataGrid13" Margin="0,390,0,0" Height="30" VerticalAlignment="Top">
 					<Label x:Name="Strike13" Background="#ffffff" Height="2" />
@@ -170,7 +196,9 @@ End License block -->
 					<Label x:Name="TypeLabel13" Foreground="#ff1010" />
 					<Label x:Name="InfoLabel13" Foreground="#00b4ff" />
 					<Label x:Name="NameLabel13" Foreground="#00ff00" Margin="150,0,0,0" />
-					<TextBox x:Name="DataText13" Margin="300,0,0,0" />
+					<TextBox x:Name="DataText13" Margin="300,0,0,0" Foreground="#b400ff" Background="#0b000f" />
+					<TextBox x:Name="DataInt13" Margin="300,0,0,0" Foreground="#00b4ff" Background="#000b0f" />
+					<CheckBox x:Name="DataBool13" Margin="300,0,0,0" Foreground="#ffff00" />
 				</Grid>
 				<Grid x:Name="DataGrid14" Margin="0,420,0,0" Height="30" VerticalAlignment="Top">
 					<Label x:Name="Strike14" Background="#ffffff" Height="2" />
@@ -178,7 +206,9 @@ End License block -->
 					<Label x:Name="TypeLabel14" Foreground="#ff1010" />
 					<Label x:Name="InfoLabel14" Foreground="#00b4ff" />
 					<Label x:Name="NameLabel14" Foreground="#00ff00" Margin="150,0,0,0" />
-					<TextBox x:Name="DataText14" Margin="300,0,0,0" />
+					<TextBox x:Name="DataText14" Margin="300,0,0,0" Foreground="#b400ff" Background="#0b000f" />
+					<TextBox x:Name="DataInt14" Margin="300,0,0,0" Foreground="#00b4ff" Background="#000b0f" />
+					<CheckBox x:Name="DataBool14" Margin="300,0,0,0" Foreground="#ffff00" />
 				</Grid>
 				<Grid x:Name="DataGrid15" Margin="0,450,0,0" Height="30" VerticalAlignment="Top">
 					<Label x:Name="Strike15" Background="#ffffff" Height="2" />
@@ -186,9 +216,10 @@ End License block -->
 					<Label x:Name="TypeLabel15" Foreground="#ff1010" />
 					<Label x:Name="InfoLabel15" Foreground="#00b4ff" />
 					<Label x:Name="NameLabel15" Foreground="#00ff00" Margin="150,0,0,0" />
-					<TextBox x:Name="DataText15" Margin="300,0,0,0" />
+					<TextBox x:Name="DataText15" Margin="300,0,0,0" Foreground="#b400ff" Background="#0b000f" />
+					<TextBox x:Name="DataInt15" Margin="300,0,0,0" Foreground="#00b4ff" Background="#000b0f" />
+					<CheckBox x:Name="DataBool15" Margin="300,0,0,0" Foreground="#ffff00" />
 				</Grid>
-
 				<!-- End:   Quick Generated Part -->
 			</Grid>
 		</Grid>

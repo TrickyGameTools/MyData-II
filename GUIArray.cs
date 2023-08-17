@@ -21,7 +21,7 @@
 // Please note that some references to data like pictures or audio, do not automatically
 // fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 23.08.15
+// Version: 23.08.17
 // EndLic
 using System;
 using System.Collections.Generic;
@@ -35,19 +35,24 @@ namespace MyData_II {
         public const int max = 15;
         static public int mmax => max + 1;
 
+        internal static readonly Grid[] grids = new Grid[mmax];
         internal static readonly TextBox[] tb = new TextBox[mmax];
+        internal static readonly TextBox[] tbi = new TextBox[mmax];
         internal static readonly ComboBox[] cb = new ComboBox[mmax];
         internal static readonly CheckBox[] chk = new CheckBox[mmax];
 
         static public readonly Label[] ltype = new Label[mmax];
+        static public readonly Label[] lname = new Label[mmax];
         static public readonly Label[] linfo = new Label[mmax];
         static public readonly Label[] lstrike = new Label[mmax];
 
         static public readonly Dictionary<TextBox,int> itb = new Dictionary<TextBox,int>();
+        static public readonly Dictionary<TextBox, int> itbi = new Dictionary<TextBox, int>();
         static public readonly Dictionary<ComboBox,int> icb = new Dictionary<ComboBox,int>();
         static public readonly Dictionary<CheckBox,int> ichk = new Dictionary<CheckBox,int>();
 
         public static void Reg(int idx,TextBox _tb) { tb[idx] = _tb; itb[_tb] = idx; }
+        public static void RegI(int idx, TextBox _tb) { tbi[idx] = _tb; itbi[_tb] = idx; }
         public static void Reg(int idx,ComboBox _tb) { cb[idx] = _tb; icb[_tb] = idx; }
         public static void Reg(int idx,CheckBox _tb) { chk[idx] = _tb; ichk[_tb] = idx; }
 

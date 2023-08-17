@@ -21,7 +21,7 @@
 // Please note that some references to data like pictures or audio, do not automatically
 // fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 23.08.16
+// Version: 23.08.17
 // EndLic
 
 using System;
@@ -48,6 +48,8 @@ namespace MyData_II {
 		internal readonly List<MyDataPage> Pages = new List<MyDataPage>();
 		internal readonly Dictionary<string,MyDataField> Fields = new Dictionary<string,MyDataField>();
 		internal readonly SortedDictionary<string, MyDataRecord> Records = new SortedDictionary<string, MyDataRecord>();
+
+		internal static MyData CurrentDatabase = null;
 
 		#region Sys
 		internal string Sys_OutPutGINIEBase { get; private set; } = "";
@@ -210,7 +212,7 @@ namespace MyData_II {
 									if (qstr.Prefixed(cline.ToUpper(), "REC:")) {
 										// Enhancement: I might work it out with the auto prefix to template when the template feature is fully working
 										CurrentRecord = new MyDataRecord(this);
-										Records[cline.Substring(4).ToUpper()] = CurrentRecord;
+										Records[cline.Substring(4).ToUpper().Trim()] = CurrentRecord;
 									} else {
 										var p = cline.IndexOf('=');
 										if (p < 1)
