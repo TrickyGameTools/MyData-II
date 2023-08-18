@@ -223,10 +223,23 @@ namespace MyData_II {
 			nrgal[nrga.DupeRecord] = "Duplicate record as";
 		}
 
+		void AllowFunctions() {
+			var hasDataBase = LB_Databases.SelectedIndex >= 0;
+			var hasRecord = LB_Records.SelectedIndex >= 0;
+			ButNewRecord.IsEnabled = hasDataBase;
+			ButSaveExprt.IsEnabled = hasDataBase;
+			ButDupRecord.IsEnabled = hasRecord && hasDataBase;
+			ButRemRecord.IsEnabled = hasRecord && hasDataBase;
+			ButRenRecord.IsEnabled = hasRecord && hasDataBase;
+			ButRec2Templ.IsEnabled = hasRecord && hasDataBase;
+			ButForceSave.IsEnabled = hasRecord && hasDataBase;
+		}
+
 		void RefreshLBDatabases() {
 			LB_Databases.Items.Clear();
 			foreach(var k in Args.DataBases.Keys) LB_Databases.Items.Add(k);
 			NewOrDupeGrid.Visibility = Visibility.Hidden;
+			AllowFunctions();
 		}
 
 		void OnWindowClose(object sender, EventArgs e) {
@@ -265,6 +278,7 @@ namespace MyData_II {
 					LB_Records.Items.Add(entry);
 			}
 			PageGrid.Visibility = Visibility.Hidden;
+			AllowFunctions();
 		}
 
 		void RefreshLBPages() {
@@ -272,9 +286,11 @@ namespace MyData_II {
 			if (MyData.CurrentDatabase == null) return;
 			PageList.Items.Clear();
 			foreach (var k in MyData.CurrentDatabase.Pages) PageList.Items.Add(k.PageName);
+			AllowFunctions();
 		}
 
 		void SetUpDataView() {
+			AllowFunctions();
 			NewOrDupeGrid.Visibility = Visibility.Hidden;
 			Debug.WriteLine($"Set up Dataview\n- LB_Databases.SelectedItem={LB_Databases.SelectedItem}\n- LB_Records.SelectedItem = {LB_Records.SelectedItem}\n- PageList.SelectedItem={PageList.SelectedItem}\n ");
 
@@ -404,6 +420,7 @@ namespace MyData_II {
 			RefreshLBRecords();
 			RefreshLBPages();
 			SetUpDataView();
+			AllowFunctions();
 		}
 
 		private void PageList_SelectionChanged(object sender, SelectionChangedEventArgs e) {
@@ -502,6 +519,24 @@ namespace MyData_II {
 						}
 						MyData.CurrentDatabase.Records[rname] = new MyDataRecord(MyData.CurrentDatabase, Template);
 						Confirm.Annoy($"Record {rname} has been created!");
+						RefreshLBRecords();
+					}
+					break;
+				case nrga.DupeRecord: {
+						var Template = "Default";
+						if (MyData.CurrentDatabase.RecordExists(rname)) {
+							Error.Err($"Record {rname} already exists!");
+							return;
+						}
+						if (!MyData.ValidRecName(rname)) {
+							Error.Err($"'{rname}' is not a valid record name");
+							return;
+						}
+						MyData.CurrentDatabase.Records[rname] = new MyDataRecord(MyData.CurrentDatabase, Template);
+						foreach(var r in ChosenRecord.Keys) {
+							MyData.CurrentDatabase.Records[rname][r] = ChosenRecord[r];
+						}
+						Confirm.Annoy($"Record {ChosenRecordName} has been duplicated as {rname}");
 						RefreshLBRecords();
 					}
 					break;

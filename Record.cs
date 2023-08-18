@@ -21,7 +21,7 @@
 // Please note that some references to data like pictures or audio, do not automatically
 // fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 23.08.17
+// Version: 23.08.18
 // EndLic
 using System;
 using System.Collections.Generic;
@@ -53,9 +53,10 @@ namespace MyData_II {
 				if (!Parent.Fields.ContainsKey(key)) 
 					Error.Err($"There is no field named '{key}' in this database. Yet a request to assign data to that field was done. This request will be ignored!");
 				Data[key] = value;
-				Modified = true;
+				Modified = true;				
 			}
 		}
+		internal Dictionary<string,string>.KeyCollection Keys => Data.Keys;
 
 		internal int IntVal(string key) {
 			try {
