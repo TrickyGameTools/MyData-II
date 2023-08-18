@@ -59,6 +59,29 @@ namespace MyData_II {
 		internal bool Sys_AutoExport { get; private set; } = false;
 		#endregion
 
+		/*
+		   public string eol {
+            get {
+                if (!MyDataBase.sys.ContainsKey("EOL")) return "\n";
+                switch (MyDataBase.sys["EOL"].ToUpper()) {
+                    case "DOS":
+                    case "WINDOWS":
+                        // return "\r\n"; // Fuck Windows
+                        return "\n";
+                    case "UNIX":
+                    case "LINUX":
+                    case "MAC":
+                    case "MACOSX":
+                        return "\n";
+                    default:
+                        TrickyUnits.GTK.QuickGTK.Error($"I do not know EOL type {MyDataBase.sys[""]}, so reverting back to Unix format."EOL);
+                        MyDataBase.sys["EOL"] = "UNIX"; // Won't alter the database files, but it will prevent the message to pop up over and over and over and over and over etc.
+                        return "\n";
+                }
+            }
+        }
+		*/
+
 		internal static bool ValidRecName(string k) {
 			bool ret = true;
 			for(int a = 0; a < k.Length; ++a) {
