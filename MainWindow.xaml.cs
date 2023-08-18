@@ -231,7 +231,7 @@ namespace MyData_II {
 			ButRemRecord.IsEnabled = hasRecord && hasDataBase;
 			ButRenRecord.IsEnabled = hasRecord && hasDataBase;
 			ButRec2Templ.IsEnabled = hasRecord && hasDataBase;
-			ButForceSave.IsEnabled = hasRecord && hasDataBase;
+			ButForceSave.IsEnabled = hasRecord && hasDataBase && (!ChosenRecord.Modified);
 		}
 
 		void RefreshLBDatabases() {
@@ -438,6 +438,7 @@ namespace MyData_II {
 			if (Gadget2Field.ContainsKey(sender)) {
 				ChosenRecord[Gadget2Field[sender]] = C.IsChecked.ToString();
 			}
+			AllowFunctions();
 		}
 
 		private void Act_TBChange(object sender, TextChangedEventArgs e) {
@@ -462,15 +463,16 @@ namespace MyData_II {
 					default:
 						Error.Crash($"Internal error! Please report! Textbox handling \"{MyData.CurrentDatabase.Fields[f].Type}\" requested. Should not be posisble! ");
 						break;
-				}
-				
+				}				
 			}
+			AllowFunctions();
 		}
 
 		private void DataMC_SelectionChanged(object sender, SelectionChangedEventArgs e) {
 			if (DoNotModify) return;
 			var MCV=(ComboBox)sender;
 			ChosenRecord[Gadget2Field[sender]]=MCV.SelectedItem.ToString();
+			AllowFunctions();
 		}
 
 		void Show_nrg(nrga _t) {
@@ -490,16 +492,14 @@ namespace MyData_II {
 
 		}
 
-		private void Act_ForceSave(object sender, RoutedEventArgs e) {
-
-		}
+		private void Act_ForceSave(object sender, RoutedEventArgs e) { ChosenRecord.Modified = true; }
 
 		private void Act_RemRecord(object sender, RoutedEventArgs e) {
 			if (Confirm.Yes($"Are you sure you wish to remove the record {ChosenRecordName}?")) {
-                MyData.CurrentDatabase.Records.Remove(ChosenRecordName);
-                Confirm.Annoy($"Record {ChosenRecordName} has been removed");
-                RefreshLBRecords();
-            }
+				MyData.CurrentDatabase.Records.Remove(ChosenRecordName);
+				Confirm.Annoy($"Record {ChosenRecordName} has been removed");
+				RefreshLBRecords();
+			}
 		}
 
 		private void Act_SaveAndExport(object sender, RoutedEventArgs e) {
@@ -545,21 +545,21 @@ namespace MyData_II {
 					break;
 				case nrga.RenameRecord: {
 						if (rname == ChosenRecordName) return;
-                        if (MyData.CurrentDatabase.RecordExists(rname)) {
-                            Error.Err($"Record {rname} already exists!");
-                            return;
-                        }
-                        if (!MyData.ValidRecName(rname)) {
-                            Error.Err($"'{rname}' is not a valid record name");
-                            return;
-                        }
+						if (MyData.CurrentDatabase.RecordExists(rname)) {
+							Error.Err($"Record {rname} already exists!");
+							return;
+						}
+						if (!MyData.ValidRecName(rname)) {
+							Error.Err($"'{rname}' is not a valid record name");
+							return;
+						}
 						MyData.CurrentDatabase.Records[rname] = MyData.CurrentDatabase.Records[ChosenRecordName];
 						MyData.CurrentDatabase.Records.Remove(ChosenRecordName);
-                        Confirm.Annoy($"Record {ChosenRecordName} has been renamed to {rname}");
-                        RefreshLBRecords();
-                    }
+						Confirm.Annoy($"Record {ChosenRecordName} has been renamed to {rname}");
+						RefreshLBRecords();
+					}
 					break;
-                default:
+				default:
 					Error.Err($"I do not know what to do in stage {nrgaOpenFor}\nPlease report");
 					break;
 			}
