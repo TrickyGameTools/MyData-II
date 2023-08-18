@@ -78,6 +78,7 @@
       <Link>Units\GINIE.cs</Link>
     </Compile>
     <Compile Include="Record.cs" />
+    <Compile Include="X_Base.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
