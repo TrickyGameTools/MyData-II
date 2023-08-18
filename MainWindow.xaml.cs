@@ -243,6 +243,7 @@ namespace MyData_II {
 
 		void OnWindowClose(object sender, EventArgs e) {
 			Debug.WriteLine("User requested to close");
+			Act_SaveAndExport(null, null);
 		}
 
 		private void Act_Filter(object sender, RoutedEventArgs e) {
@@ -505,10 +506,10 @@ namespace MyData_II {
 		private void Act_SaveAndExport(object sender, RoutedEventArgs e) {
 			// Save first
 			var source = Export.XMyData.XBase(MyData.CurrentDatabase);
-            //QuickStream.SaveString("Temp.mydata", source);
-            QuickStream.SaveString(MyData.CurrentDatabase.FileName, source);
-            // Handle exports			 
-        }
+			//QuickStream.SaveString("Temp.mydata", source);
+			QuickStream.SaveString(MyData.CurrentDatabase.FileName, source);
+			// Handle exports			 
+		}
 
 		private void Act_ConfirmNewRec(object sender, RoutedEventArgs e) {
 			var rname = TB_NewRec.Text.ToUpper();
