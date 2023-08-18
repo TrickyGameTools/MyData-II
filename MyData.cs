@@ -68,6 +68,11 @@ namespace MyData_II {
 			return Records[rec];
 		}
 
+		internal bool RecordExists(string rec) {
+			rec = rec.ToUpper();
+			return Records.ContainsKey(rec);
+		}
+
 		internal string this[string rec, string fld] {
 			get {
 				var r = Record(rec);
@@ -222,7 +227,7 @@ namespace MyData_II {
 										CurrentRecord[f] = v;
 										CurrentRecord.Modified = false;
 									}
-                                } break;
+								} break;
 							default: throw new Exception($"Internal error!\n{ErrTag}\nUnknown Stage ({Stage})");
 						}
 					}
