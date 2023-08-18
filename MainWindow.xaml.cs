@@ -21,7 +21,7 @@
 // Please note that some references to data like pictures or audio, do not automatically
 // fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 23.08.17
+// Version: 23.08.18
 // EndLic
 
 using System;
@@ -42,7 +42,7 @@ using System.Windows.Shapes;
 // using System.Text.RegularExpressions; // Epic Fail
 using TrickyUnits;
 using System.Linq.Expressions;
-using System.Runtime.Remoting.Channels;
+using System.Runtime.Remoting.Channels; 
 
 namespace MyData_II {
 
