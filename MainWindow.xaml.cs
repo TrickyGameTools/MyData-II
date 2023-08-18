@@ -492,8 +492,12 @@ namespace MyData_II {
 				case nrga.NewRecord: {
 						var Template = "Default";
 						// TODO: Decide Template based on prefix
-						if(MyData.CurrentDatabase.RecordExists(rname)) {
+						if (MyData.CurrentDatabase.RecordExists(rname)) {
 							Error.Err($"Record {rname} already exists!");
+							return;
+						}
+						if (!MyData.ValidRecName(rname)) {
+							Error.Err($"'{rname}' is not a valid record name");
 							return;
 						}
 						MyData.CurrentDatabase.Records[rname] = new MyDataRecord(MyData.CurrentDatabase, Template);

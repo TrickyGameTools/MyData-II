@@ -59,6 +59,19 @@ namespace MyData_II {
 		internal bool Sys_AutoExport { get; private set; } = false;
 		#endregion
 
+		internal static bool ValidRecName(string k) {
+			bool ret = true;
+			for(int a = 0; a < k.Length; ++a) {
+				ret = ret && (
+					k[a] == '_' ||
+					(k[a]>='A' && k[a]<='Z') ||
+					(k[a]>='a' && k[a]<='z') ||
+					(k[a]>='0' && k[a]<='9')
+					);
+			}
+			return ret;
+		}
+
 		internal MyDataRecord Record (string rec) {
 			rec = rec.ToUpper();
 			if (!Records.ContainsKey(rec)) {
