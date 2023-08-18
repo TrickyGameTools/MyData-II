@@ -46,6 +46,7 @@ using System.Runtime.Remoting.Channels;
 
 namespace MyData_II {
 
+	enum nrga { None, NewRecord, RenameRecord, DupeRecord};
 
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
@@ -55,6 +56,9 @@ namespace MyData_II {
 		static private bool DoNotModify = false;
 		static public Dictionary<bool,Visibility> Visible = new Dictionary<bool,Visibility>();
 		static public Dictionary<object,string> Gadget2Field = new Dictionary<object,string>();
+
+		static private readonly Dictionary<nrga,string> nrgal = new Dictionary<nrga,string>();
+		static private nrga nrgaOpenFor = nrga.None;
 
 		public MainWindow() {
 			Visible[true]=Visibility.Visible; Visible[false]=Visibility.Hidden;
@@ -212,11 +216,17 @@ namespace MyData_II {
 			PageGrid.Visibility = Visibility.Hidden;
 			PageMainGrid.Visibility = Visibility.Hidden;
 			RecordsGrid.Visibility = Visibility.Hidden;
+			NewOrDupeGrid.Visibility = Visibility.Hidden;
+			nrgal[nrga.None] = "???";
+			nrgal[nrga.NewRecord] = "Name New Record";
+			nrgal[nrga.RenameRecord] = "New name for record";
+			nrgal[nrga.DupeRecord] = "Duplicate record as";
 		}
 
 		void RefreshLBDatabases() {
 			LB_Databases.Items.Clear();
 			foreach(var k in Args.DataBases.Keys) LB_Databases.Items.Add(k);
+			NewOrDupeGrid.Visibility = Visibility.Hidden;
 		}
 
 		void OnWindowClose(object sender, EventArgs e) {
@@ -243,6 +253,7 @@ namespace MyData_II {
 		}
 
 		void RefreshLBRecords() {
+			NewOrDupeGrid.Visibility = Visibility.Hidden;
 			if (MyData.CurrentDatabase == null) return;
 			var Expression = TB_Filter.Text.ToUpper().Trim();			
 			LB_Records.Items.Clear();
@@ -257,12 +268,14 @@ namespace MyData_II {
 		}
 
 		void RefreshLBPages() {
+			NewOrDupeGrid.Visibility = Visibility.Hidden;
 			if (MyData.CurrentDatabase == null) return;
 			PageList.Items.Clear();
 			foreach (var k in MyData.CurrentDatabase.Pages) PageList.Items.Add(k.PageName);
 		}
 
 		void SetUpDataView() {
+			NewOrDupeGrid.Visibility = Visibility.Hidden;
 			Debug.WriteLine($"Set up Dataview\n- LB_Databases.SelectedItem={LB_Databases.SelectedItem}\n- LB_Records.SelectedItem = {LB_Records.SelectedItem}\n- PageList.SelectedItem={PageList.SelectedItem}\n ");
 
 			if (LB_Databases.SelectedItem == null || LB_Records.SelectedItem == null || PageList.SelectedItem == null) {
@@ -378,6 +391,7 @@ namespace MyData_II {
 		}
 
 		private void LB_Databases_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+			NewOrDupeGrid.Visibility = Visibility.Hidden;
 			if (LB_Databases.SelectedItem == null) {
 				PageGrid.Visibility = Visibility.Hidden;
 				PageMainGrid.Visibility = Visibility.Hidden;
@@ -401,6 +415,7 @@ namespace MyData_II {
 		}
 
 		private void Act_Check(object sender, RoutedEventArgs e) {
+			NewOrDupeGrid.Visibility = Visibility.Hidden;
 			var C = (CheckBox)sender;
 			C.Content = $"{C.IsChecked}";
 			if (DoNotModify) return;
@@ -410,6 +425,7 @@ namespace MyData_II {
 		}
 
 		private void Act_TBChange(object sender, TextChangedEventArgs e) {
+			NewOrDupeGrid.Visibility = Visibility.Hidden;
 			if (DoNotModify) return;
 			var T=(TextBox)sender;
 			if (Gadget2Field.ContainsKey(sender)) {
@@ -439,6 +455,56 @@ namespace MyData_II {
 			if (DoNotModify) return;
 			var MCV=(ComboBox)sender;
 			ChosenRecord[Gadget2Field[sender]]=MCV.SelectedItem.ToString();
+		}
+
+		void Show_nrg(nrga _t) {
+			Label_NewRec.Content = nrgal[_t];
+			TB_NewRec.Text = "";
+			NewOrDupeGrid.Visibility = Visibility.Visible;
+			nrgaOpenFor = _t;
+		}
+
+		private void Act_NewRecord(object sender, RoutedEventArgs e) { Show_nrg(nrga.NewRecord); }
+
+		private void Act_DupRecord(object sender, RoutedEventArgs e) { Show_nrg(nrga.DupeRecord); }
+
+		private void Act_RenRecord(object sender, RoutedEventArgs e) { Show_nrg(nrga.RenameRecord); }
+
+		private void Act_Record2Template(object sender, RoutedEventArgs e) {
+
+		}
+
+		private void Act_ForceSave(object sender, RoutedEventArgs e) {
+
+		}
+
+		private void Act_RemRecord(object sender, RoutedEventArgs e) {
+
+		}
+
+		private void Act_SaveAndExport(object sender, RoutedEventArgs e) {
+			 
+		}
+
+		private void Act_ConfirmNewRec(object sender, RoutedEventArgs e) {
+			var rname = TB_NewRec.Text.ToUpper();
+			switch(nrgaOpenFor) {
+				case nrga.NewRecord: {
+						var Template = "Default";
+						// TODO: Decide Template based on prefix
+						if(MyData.CurrentDatabase.RecordExists(rname)) {
+							Error.Err($"Record {rname} already exists!");
+							return;
+						}
+						MyData.CurrentDatabase.Records[rname] = new MyDataRecord(MyData.CurrentDatabase, Template);
+						Confirm.Annoy($"Record {rname} has been created!");
+						RefreshLBRecords();
+					}
+					break;
+				default:
+					Error.Err($"I do not know what to do in stage {nrgaOpenFor}\nPlease report");
+					break;
+			}
 		}
 	}
 }
