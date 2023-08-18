@@ -53,7 +53,7 @@ End License block -->
                 <Button x:Name="ButRenRecord" Foreground="#e4e669" Background="#0e0e06" Click="Act_RenRecord" Height="32" Width="100" VerticalAlignment="Top" HorizontalAlignment="Left" Content="Rename Record" Margin="0,38,0,0"/>
                 <Button x:Name="ButDupRecord" Foreground="#e4e669" Background="#0e0e06" Click="Act_DupRecord" Height="32" Width="100" VerticalAlignment="Top" HorizontalAlignment="Left" Content="Dupe Record" Margin="105,0,0,0"/>
                 <Button x:Name="ButForceSave" Foreground="#e4e669" Background="#0e0e06" Click="Act_ForceSave" Width="100" HorizontalAlignment="Left" Content="Force Modified" Margin="105,38,0,0"/>
-                <Button x:Name="ButRemRecord" Foreground="#f4e669" Background="#1e0e06" Click="Act_RemRecord" Height="32" Width="100" VerticalAlignment="Top" HorizontalAlignment="Left" Content="Remove Record" Margin="210,0,0,0"/>
+                <Button x:Name="ButRemRecord" Foreground="#ff7659" Background="#1e0e06" Click="Act_RemRecord" Height="32" Width="100" VerticalAlignment="Top" HorizontalAlignment="Left" Content="Remove Record" Margin="210,0,0,0"/>
                 <Button x:Name="ButSaveExprt" Foreground="#e4e669" Background="#0e0e06" Click="Act_SaveAndExport" Height="32" Width="100" VerticalAlignment="Top" HorizontalAlignment="Left" Content="Save and Export" Margin="210,38,0,0"/>
                 <Button x:Name="ButRec2Templ" Foreground="#e4e669" Background="#0e0e06" Click="Act_Record2Template" Height="32" Width="120" VerticalAlignment="Top" HorizontalAlignment="Left" Content="Record to template" Margin="315,0,0,0"/>
             </Grid>

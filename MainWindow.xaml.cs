@@ -42,8 +42,7 @@ using System.Windows.Shapes;
 // using System.Text.RegularExpressions; // Epic Fail
 using TrickyUnits;
 using System.Linq.Expressions;
-using System.Runtime.Remoting.Channels; 
-
+using System.Runtime.Remoting.Channels;
 namespace MyData_II {
 
 	enum nrga { None, NewRecord, RenameRecord, DupeRecord};
@@ -496,7 +495,11 @@ namespace MyData_II {
 		}
 
 		private void Act_RemRecord(object sender, RoutedEventArgs e) {
-
+			if (Confirm.Yes($"Are you sure you wish to remove the record {ChosenRecordName}?")) {
+                MyData.CurrentDatabase.Records.Remove(ChosenRecordName);
+                Confirm.Annoy($"Record {ChosenRecordName} has been removed");
+                RefreshLBRecords();
+            }
 		}
 
 		private void Act_SaveAndExport(object sender, RoutedEventArgs e) {
@@ -540,7 +543,23 @@ namespace MyData_II {
 						RefreshLBRecords();
 					}
 					break;
-				default:
+				case nrga.RenameRecord: {
+						if (rname == ChosenRecordName) return;
+                        if (MyData.CurrentDatabase.RecordExists(rname)) {
+                            Error.Err($"Record {rname} already exists!");
+                            return;
+                        }
+                        if (!MyData.ValidRecName(rname)) {
+                            Error.Err($"'{rname}' is not a valid record name");
+                            return;
+                        }
+						MyData.CurrentDatabase.Records[rname] = MyData.CurrentDatabase.Records[ChosenRecordName];
+						MyData.CurrentDatabase.Records.Remove(ChosenRecordName);
+                        Confirm.Annoy($"Record {ChosenRecordName} has been renamed to {rname}");
+                        RefreshLBRecords();
+                    }
+					break;
+                default:
 					Error.Err($"I do not know what to do in stage {nrgaOpenFor}\nPlease report");
 					break;
 			}
