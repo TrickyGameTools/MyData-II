@@ -165,7 +165,7 @@ namespace MyData_II {
 							var p = l.IndexOf(':');
 							CurrentTemplate = l.Substring(p + 1).Trim();
 							Stage = MyDataParseState.Page;
-						} else if (qstr.Prefixed(l.ToUpper(), "RECORDS")) {
+						} else if (l.ToUpper()=="RECORDS") {
 							Stage = MyDataParseState.Record;
 						} else {
 							throw new Exception($"\n\n\n{ErrTag}New stage definition unknown\n{cline}");
