@@ -49,6 +49,24 @@ namespace MyData_II {
 		internal readonly Dictionary<string, MyDataField> Fields = new Dictionary<string, MyDataField>();
 		internal readonly SortedDictionary<string, MyDataRecord> Records = new SortedDictionary<string, MyDataRecord>();
 
+		internal bool AllModified {
+			get {
+				var r = true;
+				foreach (MyDataRecord record in Records.Values) r = r && record.Modified;
+				return r;
+			}
+			set {
+				foreach (MyDataRecord record in Records.Values) record.Modified = value;
+			}
+		}
+
+		internal bool AnyModified {
+			get {
+				var r = false;
+				foreach (MyDataRecord record in Records.Values) r = r || record.Modified;
+				return r;
+			}
+		}
 
 		internal Dictionary<string,string> DefaultValues { get {
 				var ret = new Dictionary<string, string>();
@@ -60,7 +78,7 @@ namespace MyData_II {
 		internal class TSys {
 			private Dictionary<string, string> TrueSys = new Dictionary<string, string>();
 			internal Dictionary<string,string> ExportRec = new Dictionary<string, string>();
-            internal Dictionary<string, string> ExportBase = new Dictionary<string, string>();
+			internal Dictionary<string, string> ExportBase = new Dictionary<string, string>();
 
 			void AutoOutPutUpdate() {
 				ExportRec.Clear();
@@ -108,32 +126,32 @@ namespace MyData_II {
 		internal string Sys_License => Sys["License"];
 		internal bool Sys_AutoExport => Sys["AutoExport"].ToUpper() == "TRUE" || Sys["AutoExport"].ToUpper() == "YES";
 		internal bool Sys_RemoveNonExistent => Sys["RemoveNonExistent"].ToUpper() == "TRUE" || Sys["RemoveNonExistent"].ToUpper() == "YES";
-        #endregion
+		#endregion
 
-        /*
+		/*
 		   public string eol {
-            get {
-                if (!MyDataBase.sys.ContainsKey("EOL")) return "\n";
-                switch (MyDataBase.sys["EOL"].ToUpper()) {
-                    case "DOS":
-                    case "WINDOWS":
-                        // return "\r\n"; // Fuck Windows
-                        return "\n";
-                    case "UNIX":
-                    case "LINUX":
-                    case "MAC":
-                    case "MACOSX":
-                        return "\n";
-                    default:
-                        TrickyUnits.GTK.QuickGTK.Error($"I do not know EOL type {MyDataBase.sys[""]}, so reverting back to Unix format."EOL);
-                        MyDataBase.sys["EOL"] = "UNIX"; // Won't alter the database files, but it will prevent the message to pop up over and over and over and over and over etc.
-                        return "\n";
-                }
-            }
-        }
+			get {
+				if (!MyDataBase.sys.ContainsKey("EOL")) return "\n";
+				switch (MyDataBase.sys["EOL"].ToUpper()) {
+					case "DOS":
+					case "WINDOWS":
+						// return "\r\n"; // Fuck Windows
+						return "\n";
+					case "UNIX":
+					case "LINUX":
+					case "MAC":
+					case "MACOSX":
+						return "\n";
+					default:
+						TrickyUnits.GTK.QuickGTK.Error($"I do not know EOL type {MyDataBase.sys[""]}, so reverting back to Unix format."EOL);
+						MyDataBase.sys["EOL"] = "UNIX"; // Won't alter the database files, but it will prevent the message to pop up over and over and over and over and over etc.
+						return "\n";
+				}
+			}
+		}
 		*/
 
-        internal static bool ValidRecName(string k) {
+		internal static bool ValidRecName(string k) {
 			bool ret = true;
 			for(int a = 0; a < k.Length; ++a) {
 				ret = ret && (
