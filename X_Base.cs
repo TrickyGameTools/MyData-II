@@ -80,7 +80,7 @@ namespace MyData_II {
 					} else if (!Register[X.Key].AllowPerRec()) {
 						Error.Err($"Request to export the database in record by record to {X.Key}. However this driver does not allow that");
 					} else {
-						Debug.WriteLine("Not yet implemented so I cannot export record by record!");
+						//Debug.WriteLine("Not yet implemented so I cannot export record by record!");
 						var oDIR = Dirry.AD(Dirry.C(X.Value));						
 						if (File.Exists(oDIR)) {
 							Error.Err($"A file name {oDIR} is in the way for rec export");
