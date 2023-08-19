@@ -54,6 +54,7 @@ namespace MyData_II {
 			Register["JSON"] = new X_JSON();
 			Register["LUA"] = new X_Lua();
 			Register["NEIL"] = new X_Neil();
+			Register["PYTHON"] = new X_Python();
 			Register["XML"] = new X_XML();
 			Register["YAML"] = new X_YAML();
 		}
