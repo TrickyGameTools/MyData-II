@@ -84,6 +84,7 @@
     <Compile Include="X_Lua.cs" />
     <Compile Include="X_MyData.cs" />
     <Compile Include="X_Neil.cs" />
+    <Compile Include="X_php.cs" />
     <Compile Include="X_Python.cs" />
     <Compile Include="X_XML.cs" />
     <Compile Include="X_YAML.cs" />
