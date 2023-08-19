@@ -34,7 +34,7 @@ using TrickyUnits;
 
 namespace MyData_II {
 
-    enum nrga { None, NewRecord, RenameRecord, DupeRecord};
+	enum nrga { None, NewRecord, RenameRecord, DupeRecord};
 
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
@@ -209,7 +209,7 @@ namespace MyData_II {
 			nrgal[nrga.RenameRecord] = "New name for record";
 			nrgal[nrga.DupeRecord] = "Duplicate record as";
 			Export.RegisterExports();
-            RefreshLBDatabases();
+			RefreshLBDatabases();
 		}
 
 		void AllowFunctions() {
@@ -501,6 +501,7 @@ namespace MyData_II {
 			// Then export
 			if (MyData.CurrentDatabase.Sys_AutoExport)
 				Export.ExportToFile(MyData.CurrentDatabase);
+			MyData.CurrentDatabase.AllModified = false;
 		}
 
 		private void Act_ConfirmNewRec(object sender, RoutedEventArgs e) {
