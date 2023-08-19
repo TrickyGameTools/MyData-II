@@ -21,7 +21,7 @@
 // Please note that some references to data like pictures or audio, do not automatically
 // fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 23.08.18
+// Version: 23.08.19
 // EndLic
 
 using System;
@@ -40,26 +40,77 @@ namespace MyData_II {
 	enum MyDataTypes { None,Info, Strike, String, Int, Bool, MC};
 
 	enum MyDataParseState { None, Sys, Page, Template, PrefixToTemplate, Record };
-	
+
 	internal class MyData {
 		internal readonly string FileName;
-		internal static readonly Dictionary<string,MyDataTypes> MyDataTypesMap = new Dictionary<string,MyDataTypes>();
+		internal static readonly Dictionary<string, MyDataTypes> MyDataTypesMap = new Dictionary<string, MyDataTypes>();
 
 		internal readonly List<MyDataPage> Pages = new List<MyDataPage>();
-		internal readonly Dictionary<string,MyDataField> Fields = new Dictionary<string,MyDataField>();
+		internal readonly Dictionary<string, MyDataField> Fields = new Dictionary<string, MyDataField>();
 		internal readonly SortedDictionary<string, MyDataRecord> Records = new SortedDictionary<string, MyDataRecord>();
 
+
+		internal Dictionary<string,string> DefaultValues { get {
+				var ret = new Dictionary<string, string>();
+				foreach (var f in Fields) ret[f.Key] = f.Value.DefaultValue("Default");
+				return ret;
+			} 
+		}
+
+		internal class TSys {
+			private Dictionary<string, string> TrueSys = new Dictionary<string, string>();
+			internal Dictionary<string,string> ExportRec = new Dictionary<string, string>();
+            internal Dictionary<string, string> ExportBase = new Dictionary<string, string>();
+
+			void AutoOutPutUpdate() {
+				ExportRec.Clear();
+				ExportBase.Clear();
+				foreach (var K in TrueSys) {
+					if (qstr.Prefixed(K.Key, "OUTPUT") && qstr.Suffixed(K.Key, "BASE")) {
+						var TK = qstr.Left(K.Key, K.Key.Length - 4); TK = TK.Substring(6);
+						ExportBase[TK] = K.Value;
+					} else if (qstr.Prefixed(K.Key, "OUTPUT") && qstr.Suffixed(K.Key, "REC")) {
+						var TK = qstr.Left(K.Key, K.Key.Length - 3); TK = TK.Substring(6);
+						ExportRec[TK] = K.Value;
+					}
+				}
+			}
+			
+			internal bool ContainsKey(string k) => TrueSys.ContainsKey(k.ToUpper());
+
+			internal string this[string key] {
+				get {
+					key = key.ToUpper();
+					if (TrueSys.ContainsKey(key)) return TrueSys[key];
+					return "";
+				}
+				set {
+					TrueSys[key.ToUpper()] = value;
+					AutoOutPutUpdate();
+				}
+			}
+			Dictionary<string, string>.KeyCollection Keys => Keys;
+			Dictionary<string, string>.ValueCollection Values => Values;
+		}
+	
+		
+		#region Sys
+	
+		internal TSys Sys = new TSys();
 		internal static MyData CurrentDatabase = null;
 
-		#region Sys
+		/*
 		internal string Sys_OutPutGINIEBase { get; private set; } = "";
 		internal string Sys_OutPutGINIERec { get; private set; } = "";
+		*/
 
-		internal string Sys_License { get; private set; } = "";
-		internal bool Sys_AutoExport { get; private set; } = false;
-		#endregion
+		internal string Sys_Author => Sys["Author"];
+		internal string Sys_License => Sys["License"];
+		internal bool Sys_AutoExport => Sys["AutoExport"].ToUpper() == "TRUE" || Sys["AutoExport"].ToUpper() == "YES";
+		internal bool Sys_RemoveNonExistent => Sys["RemoveNonExistent"].ToUpper() == "TRUE" || Sys["RemoveNonExistent"].ToUpper() == "YES";
+        #endregion
 
-		/*
+        /*
 		   public string eol {
             get {
                 if (!MyDataBase.sys.ContainsKey("EOL")) return "\n";
@@ -82,7 +133,7 @@ namespace MyData_II {
         }
 		*/
 
-		internal static bool ValidRecName(string k) {
+        internal static bool ValidRecName(string k) {
 			bool ret = true;
 			for(int a = 0; a < k.Length; ++a) {
 				ret = ret && (
@@ -179,7 +230,8 @@ namespace MyData_II {
 										Error.Err($"{ErrTag}Syntax error in sys definition");
 									} else {
 										var key = cline.Substring(0, p).Trim().ToUpper();
-										var value=cline.Substring(p+1).Trim();	
+										var value=cline.Substring(p+1).Trim();
+										/*
 										switch(key) {
 											case "AUTOOUTPUT": // Deprecated!
 											case "AUTOEXPORT": // AutoExport is the new value
@@ -199,6 +251,9 @@ namespace MyData_II {
 												Error.Err($"{ErrTag}Unknown system variable: {key}");
 												break;
 										}
+										*/
+										if (key == "AUTOOUTPUT") key = "AUTOEXPORT"; // Support for deprecated behavior.
+										Sys[key] = value;
 									}
 
 								}

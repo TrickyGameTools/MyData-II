@@ -21,31 +21,20 @@
 // Please note that some references to data like pictures or audio, do not automatically
 // fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 23.08.18
+// Version: 23.08.19
 // EndLic
 
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 // using System.Text.RegularExpressions; // Epic Fail
 using TrickyUnits;
-using System.Linq.Expressions;
-using System.Runtime.Remoting.Channels;
+
 namespace MyData_II {
 
-	enum nrga { None, NewRecord, RenameRecord, DupeRecord};
+    enum nrga { None, NewRecord, RenameRecord, DupeRecord};
 
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
@@ -63,7 +52,6 @@ namespace MyData_II {
 			Visible[true]=Visibility.Visible; Visible[false]=Visibility.Hidden;
 			Debug.WriteLine($"Running {Args.Executable}");
 			InitializeComponent();
-			RefreshLBDatabases();
 			#region Generated for GUIArray
 			// Start: Generated Part
 			GUIArray.grids[0] = DataGrid00;
@@ -220,6 +208,8 @@ namespace MyData_II {
 			nrgal[nrga.NewRecord] = "Name New Record";
 			nrgal[nrga.RenameRecord] = "New name for record";
 			nrgal[nrga.DupeRecord] = "Duplicate record as";
+			Export.RegisterExports();
+            RefreshLBDatabases();
 		}
 
 		void AllowFunctions() {
@@ -508,7 +498,9 @@ namespace MyData_II {
 			var source = Export.XMyData.XBase(MyData.CurrentDatabase);
 			//QuickStream.SaveString("Temp.mydata", source);
 			QuickStream.SaveString(MyData.CurrentDatabase.FileName, source);
-			// Handle exports			 
+			// Then export
+			if (MyData.CurrentDatabase.Sys_AutoExport)
+				Export.ExportToFile(MyData.CurrentDatabase);
 		}
 
 		private void Act_ConfirmNewRec(object sender, RoutedEventArgs e) {

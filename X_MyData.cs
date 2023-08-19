@@ -21,7 +21,7 @@
 // Please note that some references to data like pictures or audio, do not automatically
 // fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 23.08.18
+// Version: 23.08.19
 // EndLic
 using System;
 using System.Collections.Generic;
@@ -34,7 +34,7 @@ using TrickyUnits;
 namespace MyData_II {
 	internal class X_MyData:Export {
 		public X_MyData() {
-			MKL.Version("MyData II - X_MyData.cs","23.08.18");
+			MKL.Version("MyData II - X_MyData.cs","23.08.19");
 			MKL.Lic    ("MyData II - X_MyData.cs","GNU General Public License 3");
 		}
 
@@ -77,7 +77,9 @@ namespace MyData_II {
 			Debug.WriteLine($"{ret.Length}");
 			return ret.ToString();
 		}
+		override public bool AllowPerRec() => false;
 
+		override public string Extension(MyData database) => "MyData";
 
 	}
 }

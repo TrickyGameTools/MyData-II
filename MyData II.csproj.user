@@ -14,6 +14,6 @@
     <StartArguments>"Scyndi:Projects\Applications\Apollo\Games\Star Story 2\dev\data/SS2 - Items Actions Abilities.mydata"</StartArguments>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|AnyCPU'">
-    <StartArguments>"Scyndi:Projects\Applications\Apollo\Games\Star Story 2\dev\data/SS2 - Items Actions Abilities.mydata" -version</StartArguments>
+    <StartArguments>"Scyndi:Projects/applications/visualstudio/MyData II/Test/Test.mydata"</StartArguments>
   </PropertyGroup>
 </Project>

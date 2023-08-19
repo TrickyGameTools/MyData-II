@@ -21,31 +21,69 @@
 // Please note that some references to data like pictures or audio, do not automatically
 // fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 23.08.18
+// Version: 23.08.19
 // EndLic
 
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media.TextFormatting;
 using TrickyUnits;
 
 namespace MyData_II {
 
 	abstract class Export {
+
+		public const string eol = "\n";
 		public Export() {
-			MKL.Version("MyData II - X_Base.cs","23.08.18");
+			MKL.Version("MyData II - X_Base.cs","23.08.19");
 			MKL.Lic    ("MyData II - X_Base.cs","GNU General Public License 3");
 		}
 
-		readonly static public Export XMyData = new X_MyData();
+		readonly static Dictionary<string,Export> Register = new Dictionary<string,Export>();
 
+		readonly static public Export XMyData = new X_MyData();
+		public static void RegisterExports() {
+			// MyData itself may NOT be among the Exports!
+			Register["JSON"] = new X_JSON();
+			Register["NEIL"] = new X_Neil();
+		}
+
+		
+		public static void ExportToFile(MyData database) {
+			foreach(var X in database.Sys.ExportRec) {
+				if (X.Value!="") {
+					if (!Register.ContainsKey(X.Key)) {
+						Error.Err($"Request to export the database in record by record to {X.Key}. However no driver is known to do that!");
+					} else if (!Register[X.Key].AllowPerRec()) {
+						Error.Err($"Request to export the database in record by record to {X.Key}. However this driver does not allow that");
+					} else {
+						Debug.WriteLine("Not yet implemented so I cannot export record by record!");
+					}
+				}
+			}
+			foreach(var X in database.Sys.ExportBase) {
+				if (X.Value != "") {
+					if (Register.ContainsKey(X.Key)) {
+						var XS = Register[X.Key].XBase(database);
+						QuickStream.SaveString(Dirry.AD(Dirry.C(X.Value)), XS);
+					} else {
+						Error.Err($"Request to export the database in full to {X.Key}. However no driver is known to do that!");
+					}
+				}
+			}
+		}
 
 		abstract public string XRecord(MyData database, string recname = "", bool addreturn = false);
 		abstract public string XBase(MyData database);
 		virtual public string XClass(MyData database, string cln) { return ""; }
+		virtual public bool AllowPerRec() { return true; }
 
+		abstract public string Extension(MyData database);
 
 		/*
 		public string eol {

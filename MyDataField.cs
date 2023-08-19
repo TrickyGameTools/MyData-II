@@ -21,7 +21,7 @@
 // Please note that some references to data like pictures or audio, do not automatically
 // fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 23.08.16
+// Version: 23.08.19
 // EndLic
 using System;
 using System.Collections.Generic;
@@ -36,6 +36,10 @@ namespace MyData_II {
         internal readonly string NameField;
         internal readonly uint Index = 0;
         internal readonly MyDataPage Parent;
+
+        internal string SType => $"{Type}";
+        internal string LType => SType.ToLower();
+        internal string UType => SType.ToUpper();
 
         static internal MyDataField NewestField { get; private set; } = null;
 

@@ -21,7 +21,7 @@
 // Please note that some references to data like pictures or audio, do not automatically
 // fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 23.08.18
+// Version: 23.08.19
 // EndLic
 using System;
 using System.Collections.Generic;
@@ -35,6 +35,8 @@ namespace MyData_II {
 		readonly private MyData Parent = null;
 		readonly private Dictionary<string, string> Data = new Dictionary<string, string>();
 		internal bool Modified = false;
+
+		internal bool ContainsKey(string key)=>Data.ContainsKey(key);
 
 		internal string this[string key] {
 			get {
