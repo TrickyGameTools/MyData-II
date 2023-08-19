@@ -58,7 +58,7 @@ namespace MyData_II {
 				if (tline.Length>1 && tline[0] == '[' && tline[tline.Length - 1] == ']') DoInc = tline != "[RECORDS]";
 				if (DoInc) ret.Append($"{line}\n");
 			}
-			ret.Append($"\n[Records]\n# This part was generated on {DateTime.Now} by MyData II\n");
+			ret.Append($"[Records]\n# This part was generated on {DateTime.Now} by MyData II\n");
 			foreach(var rec in database.Records) {
 				ret.Append($"\nREC: {rec.Key}\n");
 				var V = rec.Value;
