@@ -28,6 +28,7 @@ using System;
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -67,7 +68,10 @@ namespace MyData_II {
 			return H;
 		}
 
-		
+		/// <summary>
+		/// Exports a database to all export files set in the [sys] block
+		/// </summary>
+		/// <param name="database">The database to export</param>
 		public static void ExportToFile(MyData database) {
 			foreach(var X in database.Sys.ExportRec) {
 				if (X.Value!="") {
@@ -77,6 +81,29 @@ namespace MyData_II {
 						Error.Err($"Request to export the database in record by record to {X.Key}. However this driver does not allow that");
 					} else {
 						Debug.WriteLine("Not yet implemented so I cannot export record by record!");
+						var oDIR = Dirry.AD(Dirry.C(X.Value));						
+						if (File.Exists(oDIR)) {
+							Error.Err($"A file name {oDIR} is in the way for rec export");
+
+						} else {
+							if (!Directory.Exists(oDIR)) {
+								if (Confirm.Yes($"Create {X.Value} for exporting to {X.Key}?")) Directory.CreateDirectory(oDIR);
+							}
+							if (Directory.Exists(oDIR)) {
+								var reg = Register[X.Key];
+								var ods = $"{oDIR}/";
+								var _class = reg.XClass(database, qstr.StripAll(oDIR)); // classname lookup
+								if (_class != "") QuickStream.SaveString($"{ods}/MyData_ClassFile_{qstr.StripAll(oDIR)}.{reg.Extension(database)}", _class);
+								foreach(var R in database.Records) {
+									var file = $"{ods}/{R.Key}.{reg.Extension(database)}";
+									if (R.Value.Modified || !File.Exists(file)) {
+										var _rec = reg.XRecord(database, R.Key, true);
+										QuickStream.SaveString(file, _rec);
+									}
+								}
+
+							}
+						}
 					}
 				}
 			}
@@ -93,10 +120,12 @@ namespace MyData_II {
 		}
 
 		/// <summary>
-		/// Exports ALL loaded databases
+		/// Exports ALL loaded databases, if they have been configured to be exported.
 		/// </summary>
 		public static void ExportToFile() {
-			foreach (var db in Args.DataBases.Values) ExportToFile(db);
+			foreach (var db in Args.DataBases.Values)
+				if (db.Sys_AutoExport)
+					ExportToFile(db);
 		}
 
 		abstract public string XRecord(MyData database, string recname = "", bool addreturn = false);
