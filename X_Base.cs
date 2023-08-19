@@ -92,6 +92,13 @@ namespace MyData_II {
 			}
 		}
 
+		/// <summary>
+		/// Exports ALL loaded databases
+		/// </summary>
+		public static void ExportToFile() {
+			foreach (var db in Args.DataBases.Values) ExportToFile(db);
+		}
+
 		abstract public string XRecord(MyData database, string recname = "", bool addreturn = false);
 		abstract public string XBase(MyData database);
 		virtual public string XClass(MyData database, string cln) { return ""; }
