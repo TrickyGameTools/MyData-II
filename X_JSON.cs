@@ -105,7 +105,7 @@ namespace MyData_II {
 
         }
 
-        public override string Extension(MyData database) => ".json";
+        public override string Extension(MyData database) => "json";
     }
 
 }
