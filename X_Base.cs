@@ -50,10 +50,19 @@ namespace MyData_II {
 		public static void RegisterExports() {
 			// MyData itself may NOT be among the Exports!
 			// All key strings must be in ALL CAPS.
+			Register["GINIE"] = new X_GINIE();
 			Register["JSON"] = new X_JSON();
 			Register["LUA"] = new X_Lua();
 			Register["NEIL"] = new X_Neil();
 			Register["XML"] = new X_XML();
+			Register["YAML"] = new X_YAML();
+		}
+
+		internal string Header(MyData MD,string p) {
+			var H = $"{p} Generated with MyData II on {DateTime.Now}\n";
+			if (MD.Sys_License!="") H+=$"{p} License: {MD.Sys_License}\n";
+			H += "\n\n";
+			return H;
 		}
 
 		
