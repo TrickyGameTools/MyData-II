@@ -79,11 +79,13 @@
     </Compile>
     <Compile Include="Record.cs" />
     <Compile Include="X_Base.cs" />
+    <Compile Include="X_GINIE.cs" />
     <Compile Include="X_JSON.cs" />
     <Compile Include="X_Lua.cs" />
     <Compile Include="X_MyData.cs" />
     <Compile Include="X_Neil.cs" />
     <Compile Include="X_XML.cs" />
+    <Compile Include="X_YAML.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
