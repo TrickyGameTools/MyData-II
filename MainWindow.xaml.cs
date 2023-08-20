@@ -21,12 +21,13 @@
 // Please note that some references to data like pictures or audio, do not automatically
 // fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 23.08.19
+// Version: 23.08.20
 // EndLic
 
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 // using System.Text.RegularExpressions; // Epic Fail
@@ -34,7 +35,7 @@ using TrickyUnits;
 
 namespace MyData_II {
 
-	enum nrga { None, NewRecord, RenameRecord, DupeRecord};
+	enum nrga { None, NewRecord, RenameRecord, DupeRecord, Template};
 
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml
@@ -47,6 +48,8 @@ namespace MyData_II {
 
 		static private readonly Dictionary<nrga,string> nrgal = new Dictionary<nrga,string>();
 		static private nrga nrgaOpenFor = nrga.None;
+
+		static private readonly List<string> Templates = new List<string>();
 
 		public MainWindow() {
 			Visible[true]=Visibility.Visible; Visible[false]=Visibility.Hidden;
@@ -208,6 +211,7 @@ namespace MyData_II {
 			nrgal[nrga.NewRecord] = "Name New Record";
 			nrgal[nrga.RenameRecord] = "New name for record";
 			nrgal[nrga.DupeRecord] = "Duplicate record as";
+			nrgal[nrga.Template] = "Record as template:";
 			Export.RegisterExports();
 			RefreshLBDatabases();
 		}
@@ -479,9 +483,7 @@ namespace MyData_II {
 
 		private void Act_RenRecord(object sender, RoutedEventArgs e) { Show_nrg(nrga.RenameRecord); }
 
-		private void Act_Record2Template(object sender, RoutedEventArgs e) {
-
-		}
+		private void Act_Record2Template(object sender, RoutedEventArgs e) { Show_nrg(nrga.Template);		}
 
 		private void Act_ForceSave(object sender, RoutedEventArgs e) { ChosenRecord.Modified = true; }
 
@@ -494,6 +496,7 @@ namespace MyData_II {
 		}
 
 		private void Act_SaveAndExport(object sender, RoutedEventArgs e) {
+			if (MyData.CurrentDatabase == null) return; // Safety precaution
 			// Save first
 			var source = Export.XMyData.XBase(MyData.CurrentDatabase);
 			//QuickStream.SaveString("Temp.mydata", source);
@@ -517,6 +520,21 @@ namespace MyData_II {
 						if (!MyData.ValidRecName(rname)) {
 							Error.Err($"'{rname}' is not a valid record name");
 							return;
+						}
+						foreach(var tmp in Templates) {
+							var p = tmp.IndexOf(':');
+							if (p > 0) {
+								var k=tmp.Substring(0, p).Trim().ToUpper();
+								var v=tmp.Substring(p+1).ToUpper();
+								switch (k) {
+									case "PREFIX":
+										if (qstr.Prefixed(rname, v)) Template = k;
+										break;
+									case "SUFFIX":
+                                        if (qstr.Suffixed(rname, v)) Template = k;
+										break;
+                                }
+							}
 						}
 						MyData.CurrentDatabase.Records[rname] = new MyDataRecord(MyData.CurrentDatabase, Template);
 						Confirm.Annoy($"Record {rname} has been created!");
@@ -555,6 +573,18 @@ namespace MyData_II {
 						MyData.CurrentDatabase.Records.Remove(ChosenRecordName);
 						Confirm.Annoy($"Record {ChosenRecordName} has been renamed to {rname}");
 						RefreshLBRecords();
+					}
+					break;
+				case nrga.Template:
+					if (Confirm.Yes($"Turn record {ChosenRecordName} it template {rname}?")) {
+						if (!Templates.Contains(rname)) Templates.Add(rname);
+						var xmd = Export.XMyData.XBase(MyData.CurrentDatabase);
+						var tmp = new StringBuilder($"{xmd}\n[Template: {rname}]\n");
+						foreach (var k in ChosenRecord.Keys) {
+							tmp.Append($"\t{k} = {ChosenRecord[k]}\n");
+							MyData.CurrentDatabase.Fields[k].DefaultValue(rname,ChosenRecord[k]);
+						}
+						QuickStream.SaveString(MyData.CurrentDatabase.FileName, tmp);
 					}
 					break;
 				default:
