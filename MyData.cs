@@ -21,7 +21,7 @@
 // Please note that some references to data like pictures or audio, do not automatically
 // fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 23.08.19
+// Version: 23.08.20
 // EndLic
 
 using System;
@@ -233,7 +233,7 @@ namespace MyData_II {
 						} else if (qstr.Prefixed(l.ToUpper(), "TEMPLATE:")) {
 							var p = l.IndexOf(':');
 							CurrentTemplate = l.Substring(p + 1).Trim();
-							Stage = MyDataParseState.Page;
+							Stage = MyDataParseState.Template;
 						} else if (l.ToUpper()=="RECORDS") {
 							Stage = MyDataParseState.Record;
 						} else {
