@@ -6,4 +6,4 @@ Now the older .mydata files should be fully compatible with the MyData II. MyDat
 
 # Status
 
-WIP - The project is NOT yet finished. Some very crucial parts are NOT yet operative (like saving to name an important one).
+Alpha - The program SHOULD work, but bugs are very likely and some features may not yet have been fully implemented.
