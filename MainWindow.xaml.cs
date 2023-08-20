@@ -30,6 +30,7 @@ using System.Diagnostics;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.TextFormatting;
 // using System.Text.RegularExpressions; // Epic Fail
 using TrickyUnits;
 
@@ -49,7 +50,7 @@ namespace MyData_II {
 		static private readonly Dictionary<nrga,string> nrgal = new Dictionary<nrga,string>();
 		static private nrga nrgaOpenFor = nrga.None;
 
-		static private readonly List<string> Templates = new List<string>();
+		static public readonly List<string> Templates = new List<string>();
 
 		public MainWindow() {
 			Visible[true]=Visibility.Visible; Visible[false]=Visibility.Hidden;
@@ -528,16 +529,16 @@ namespace MyData_II {
 								var v=tmp.Substring(p+1).ToUpper();
 								switch (k) {
 									case "PREFIX":
-										if (qstr.Prefixed(rname, v)) Template = k;
+										if (qstr.Prefixed(rname, v)) Template = tmp;
 										break;
 									case "SUFFIX":
-                                        if (qstr.Suffixed(rname, v)) Template = k;
+										if (qstr.Suffixed(rname, v)) Template = tmp;
 										break;
-                                }
+								}
 							}
 						}
 						MyData.CurrentDatabase.Records[rname] = new MyDataRecord(MyData.CurrentDatabase, Template);
-						Confirm.Annoy($"Record {rname} has been created!");
+						Confirm.Annoy($"Record {rname} has been created!\n(Template: {Template})");
 						RefreshLBRecords();
 					}
 					break;
@@ -585,6 +586,7 @@ namespace MyData_II {
 							MyData.CurrentDatabase.Fields[k].DefaultValue(rname,ChosenRecord[k]);
 						}
 						QuickStream.SaveString(MyData.CurrentDatabase.FileName, tmp);
+						PageGrid.Visibility = Visibility.Hidden;
 					}
 					break;
 				default:
