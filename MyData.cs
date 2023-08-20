@@ -230,10 +230,12 @@ namespace MyData_II {
 							// [Default] is deprecated. [Template:Default] should be used in stead
 							CurrentTemplate = "DEFAULT";
 							Stage = MyDataParseState.Template;
-						} else if (qstr.Prefixed(l.ToUpper(), "TEMPLATE:")) {
+                            if (!MainWindow.Templates.Contains(CurrentTemplate)) MainWindow.Templates.Add(CurrentTemplate);
+                        } else if (qstr.Prefixed(l.ToUpper(), "TEMPLATE:")) {
 							var p = l.IndexOf(':');
 							CurrentTemplate = l.Substring(p + 1).Trim();
 							Stage = MyDataParseState.Template;
+							if (!MainWindow.Templates.Contains(CurrentTemplate)) MainWindow.Templates.Add(CurrentTemplate);	
 						} else if (l.ToUpper()=="RECORDS") {
 							Stage = MyDataParseState.Record;
 						} else {
@@ -317,6 +319,7 @@ namespace MyData_II {
 										var k = cline.Substring(0, p).Trim();
 										var v = cline.Substring(p + 1).Trim();
 										if (Fields.ContainsKey(k)) {
+											Debug.WriteLine($"Template: {CurrentTemplate}.{k} = {v}");
 											Fields[k].DefaultValue(CurrentTemplate, v);
 										}
 									}

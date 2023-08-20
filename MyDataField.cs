@@ -21,10 +21,11 @@
 // Please note that some references to data like pictures or audio, do not automatically
 // fall under this licenses. Mostly this is noted in the respective files.
 // 
-// Version: 23.08.19
+// Version: 23.08.20
 // EndLic
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -47,8 +48,12 @@ namespace MyData_II {
 
         private Dictionary<string,string> DefaultValues = new Dictionary<string,string>();
         internal string DefaultValue(string template) {
-            template= template.Trim().ToUpper();
-            if (DefaultValues.ContainsKey(template)) return DefaultValues[template];
+            template = template.Trim().ToUpper();
+            Debug.WriteLine($"READ: Template.{template}\n=> Exists: {DefaultValues.ContainsKey(template)}");
+            if (DefaultValues.ContainsKey(template)) {
+                Debug.WriteLine($"=> value: {DefaultValues[template]}");
+                return DefaultValues[template];
+            }
             switch (Type) {
                 case MyDataTypes.Int:
                     return "0";
@@ -59,6 +64,7 @@ namespace MyData_II {
             }
         }
         internal void DefaultValue(string template,string value) {
+            Debug.WriteLine($"DEFINE: Template.{template} = {value}");
             template = template.Trim().ToUpper();
             DefaultValues[template] = value;
         }
