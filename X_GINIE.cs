@@ -69,7 +69,16 @@ namespace MyData_II {
             var v = "";
             foreach (var k in MyDataBase.Fields.Keys) {
                 if (mr.ContainsKey(k)) v = mr[k];
-                g[$"Rec:{rec}", k] = v;
+                var t = MyDataBase.Fields[k].LType;
+                var nu = k.ToUpper();
+                switch (t) {
+                    case "info":
+                    case "strike":
+                        break; // Nothing I need here!
+                    default:
+                        g[$"Rec:{rec}", k] = v;
+                        break;
+                }
             }
         }
 

@@ -243,7 +243,7 @@ namespace MyData_II {
 						}
 					} else {
 						switch (Stage) {
-							case MyDataParseState.None: throw new Exception($"Parse error!\n{ErrTag}\nThe stage has not yet been set!");
+							case MyDataParseState.None: throw new Exception($"Parse error!\n{ErrTag}\nThe stage has not yet been set!\n\n>>{cline}<<");
 							case MyDataParseState.Sys: {
 									var p = cline.IndexOf('=');
 									if (p<0) {
