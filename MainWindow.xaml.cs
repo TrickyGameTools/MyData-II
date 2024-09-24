@@ -311,7 +311,7 @@ namespace MyData_II {
 					Debug.WriteLine($"LB_Records.SelectedItem.ToString() = '{LB_Records.SelectedItem.ToString()}'; pg.Fields[{i}].NameField = '{pg.Fields[i].NameField}'; CurValue = '{CurValue}';");
 					Debug.WriteLine($"- {pg.Fields[i].Type} {pg.Fields[i].NameField}");
 					GUIArray.ltype[i].Content = pg.Fields[i].Type.ToString();
-					GUIArray.lname[i].Content = pg.Fields[i].NameField;
+					GUIArray.lname[i].Content = pg.Fields[i].NameField.Replace("_","__");
 					switch(pg.Fields[i].Type) {
 						case MyDataTypes.String:
 							GUIArray.tb[i].Visibility= Visibility.Visible;
